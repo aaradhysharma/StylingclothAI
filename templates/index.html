@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎨 Outfit Color Matcher</title>
+    <title>🎨 StyleAI - Smart Outfit Matching</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f43f5e;
+            --accent: #8b5cf6;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --success: #22c55e;
+            --error: #ef4444;
+            --border: #e2e8f0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,276 +28,201 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
             min-height: 100vh;
-            padding: 20px;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            padding: 2rem;
         }
 
         .header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            color: white;
-            padding: 30px;
             text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeIn 0.8s ease-out;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
         }
 
         .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            padding: 40px;
+            gap: 2rem;
+            animation: slideUp 0.8s ease-out;
         }
 
         .upload-section {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px dashed #dee2e6;
-            transition: all 0.3s ease;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .upload-section:hover {
-            border-color: #007bff;
-            background: #f0f8ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
         }
 
-        .info-section {
-            background: #e8f5e8;
-            padding: 30px;
-            border-radius: 15px;
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text);
         }
 
         input[type="file"], input[type="text"], select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: white;
+            background: var(--surface);
         }
 
         input[type="file"]:focus, input[type="text"]:focus, select:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
         .btn {
-            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 15px 30px;
+            padding: 0.875rem 1.5rem;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
         }
 
         .btn:active {
             transform: translateY(0);
         }
 
+        .features {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        .features h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
         .feature-list {
             list-style: none;
-            padding: 0;
         }
 
-        .feature-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #e9ecef;
+        .feature-item {
             display: flex;
             align-items: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
         }
 
-        .feature-list li:last-child {
-            border-bottom: none;
+        .feature-item:hover {
+            background: rgba(99, 102, 241, 0.05);
         }
 
         .feature-icon {
-            font-size: 1.5rem;
-            margin-right: 15px;
-            width: 30px;
-        }
-
-        .hashmap-info {
-            background: #fff3cd;
-            border: 2px solid #ffeaa7;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .hashmap-info h3 {
-            color: #856404;
-            margin-bottom: 15px;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 0.5rem;
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
         }
 
-        .hashmap-list {
-            list-style: none;
-            padding: 0;
+        .feature-text {
+            flex: 1;
         }
 
-        .hashmap-list li {
-            background: rgba(255, 255, 255, 0.8);
-            margin: 8px 0;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
+        .feature-text h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
         }
 
-        .quick-links {
-            background: #d1ecf1;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
+        .feature-text p {
+            font-size: 0.875rem;
+            color: var(--text-light);
         }
 
-        .quick-links h3 {
-            color: #0c5460;
-            margin-bottom: 15px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .link-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .quick-link {
-            background: white;
-            padding: 12px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #0c5460;
-            text-align: center;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .quick-link:hover {
-            background: #0c5460;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 20px 0;
-            display: none;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #007bff, #28a745);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .file-drop-zone {
-            border: 3px dashed #007bff;
-            border-radius: 15px;
-            padding: 40px 20px;
-            text-align: center;
-            background: #f8f9fa;
-            margin: 20px 0;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .file-drop-zone.dragover {
-            background: #e3f2fd;
-            border-color: #1976d2;
-        }
-
-        .file-drop-zone .drop-text {
-            font-size: 1.2rem;
-            color: #6c757d;
-            margin-top: 15px;
-        }
-
-        .preview-area {
-            margin-top: 20px;
-            text-align: center;
-            display: none;
-        }
-
-        .preview-image {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .link-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -289,229 +230,141 @@
             }
         }
 
-        .upload-section, .info-section {
-            animation: fadeInUp 0.6s ease;
-        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
 
-        .info-section {
-            animation-delay: 0.2s;
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🎨 Outfit Color Matcher</h1>
-            <p>AI-Powered Clothing Color Coordination with Hashmap Technology</p>
-        </div>
+        <header class="header">
+            <h1>StyleAI</h1>
+            <p>Upload your clothing items and get AI-powered outfit suggestions based on color theory and style matching.</p>
+        </header>
 
-        <div class="main-content">
-            <div class="upload-section">
-                <h2>📸 Upload Your Clothing</h2>
-                
-                <form id="uploadForm" method="POST" action="/upload" enctype="multipart/form-data">
-                    <div class="file-drop-zone" id="dropZone">
-                        <div style="font-size: 3rem;">📁</div>
-                        <div class="drop-text">Drag & drop your image here or click to browse</div>
-                        <input type="file" id="cloth_image" name="cloth_image" accept="image/*" required style="display: none;">
-                    </div>
-
-                    <div class="preview-area" id="previewArea">
-                        <img id="previewImage" class="preview-image" alt="Preview">
-                    </div>
-
-                    <div class="progress-bar" id="progressBar">
-                        <div class="progress-fill" id="progressFill"></div>
+        <main class="main-content">
+            <section class="upload-section">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div class="upload-area" id="dropZone">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Drag & Drop or Click to Upload</h3>
+                        <p>Supported formats: JPG, PNG, WEBP</p>
+                        <input type="file" name="cloth_image" id="fileInput" accept="image/*" style="display: none;">
                     </div>
 
                     <div class="form-group">
-                        <label for="category">👔 Category:</label>
-                        <select name="category" id="category" required>
-                            <option value="tops">👕 Tops (shirts, blouses, t-shirts)</option>
-                            <option value="bottoms">👖 Bottoms (pants, jeans, skirts)</option>
-                            <option value="dresses">👗 Dresses</option>
-                            <option value="belts">🔗 Belts</option>
-                            <option value="shoes">👟 Shoes</option>
-                            <option value="accessories">💎 Accessories</option>
+                        <label for="item_name">Item Name</label>
+                        <input type="text" id="item_name" name="item_name" placeholder="e.g., Blue Denim Jacket" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category" required>
+                            <option value="tops">Tops</option>
+                            <option value="bottoms">Bottoms</option>
+                            <option value="dresses">Dresses</option>
+                            <option value="outerwear">Outerwear</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="accessories">Accessories</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="item_name">🏷️ Item Name (optional):</label>
-                        <input type="text" name="item_name" id="item_name" placeholder="e.g., Blue Polo Shirt">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="user_id">👤 User ID:</label>
-                        <input type="text" name="user_id" id="user_id" value="user1" placeholder="Enter your user ID">
-                    </div>
-
                     <button type="submit" class="btn">
-                        🔍 Analyze & Get Suggestions
+                        <i class="fas fa-magic"></i>
+                        Analyze & Get Suggestions
                     </button>
                 </form>
-            </div>
+            </section>
 
-            <div class="info-section">
-                <h2>✨ Features</h2>
+            <section class="features">
+                <h2>Smart Features</h2>
                 <ul class="feature-list">
-                    <li>
-                        <span class="feature-icon">🤖</span>
-                        <span>AI-powered color extraction using K-means clustering</span>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Color Analysis</h3>
+                            <p>Advanced AI-powered color extraction and matching</p>
+                        </div>
                     </li>
-                    <li>
-                        <span class="feature-icon">⚡</span>
-                        <span>Lightning-fast hashmap-based color matching</span>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Style Matching</h3>
+                            <p>Get outfit suggestions based on color harmony theory</p>
+                        </div>
                     </li>
-                    <li>
-                        <span class="feature-icon">🎨</span>
-                        <span>Color harmony theory (complementary, analogous, triadic)</span>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Seasonal Colors</h3>
+                            <p>Season-appropriate color palette suggestions</p>
+                        </div>
                     </li>
-                    <li>
-                        <span class="feature-icon">👗</span>
-                        <span>Digital wardrobe management</span>
-                    </li>
-                    <li>
-                        <span class="feature-icon">🌈</span>
-                        <span>Style-based and seasonal color suggestions</span>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-wardrobe"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h3>Wardrobe Management</h3>
+                            <p>Organize and track your clothing collection</p>
+                        </div>
                     </li>
                 </ul>
-
-                <div class="hashmap-info">
-                    <h3>🗂️ Hashmap Structures</h3>
-                    <ul class="hashmap-list">
-                        <li>user_id → category → [items]</li>
-                        <li>color → [compatible_colors]</li>
-                        <li>color_name → RGB_tuple</li>
-                        <li>category → [compatible_categories]</li>
-                        <li>season → [color_palette]</li>
-                        <li>style → [mood_colors]</li>
-                    </ul>
-                </div>
-
-                <div class="quick-links">
-                    <h3>🔗 Quick Access</h3>
-                    <div class="link-grid">
-                        <a href="/wardrobe/user1" class="quick-link">👔 My Wardrobe</a>
-                        <a href="/api/stats" class="quick-link">📊 System Stats</a>
-                        <a href="/api/suggest/user1" class="quick-link">🎯 Random Outfit</a>
-                        <a href="/api/colors" class="quick-link">🌈 Color Rules</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 
     <script>
-        // File drag and drop functionality
+        // Drag and drop functionality
         const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('cloth_image');
-        const previewArea = document.getElementById('previewArea');
-        const previewImage = document.getElementById('previewImage');
-        const progressBar = document.getElementById('progressBar');
-        const progressFill = document.getElementById('progressFill');
-        const uploadForm = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
 
-        // Click to browse
-        dropZone.addEventListener('click', () => {
-            fileInput.click();
-        });
+        dropZone.addEventListener('click', () => fileInput.click());
 
-        // Drag and drop events
         dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            dropZone.classList.add('dragover');
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.background = 'rgba(99, 102, 241, 0.05)';
         });
 
         dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
         });
 
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.classList.remove('dragover');
+            dropZone.style.borderColor = 'var(--border)';
+            dropZone.style.background = 'transparent';
             
             const files = e.dataTransfer.files;
-            if (files.length > 0) {
+            if (files.length) {
                 fileInput.files = files;
-                handleFileSelect(files[0]);
             }
         });
 
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0]);
+        // File input change handler
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                dropZone.style.borderColor = 'var(--primary)';
+                dropZone.style.background = 'rgba(99, 102, 241, 0.05)';
             }
-        });
-
-        function handleFileSelect(file) {
-            // Show preview
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                previewImage.src = e.target.result;
-                previewArea.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-
-            // Update drop zone text
-            dropZone.querySelector('.drop-text').textContent = `Selected: ${file.name}`;
-        }
-
-        // Form submission with progress
-        uploadForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            if (!fileInput.files[0]) {
-                alert('Please select an image first!');
-                return;
-            }
-
-            // Show progress bar
-            progressBar.style.display = 'block';
-            
-            // Simulate progress
-            let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += Math.random() * 30;
-                if (progress > 90) progress = 90;
-                progressFill.style.width = progress + '%';
-            }, 200);
-
-            // Submit form
-            const formData = new FormData(uploadForm);
-            
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                clearInterval(progressInterval);
-                progressFill.style.width = '100%';
-                return response.text();
-            })
-            .then(html => {
-                // Replace current page with results
-                setTimeout(() => {
-                    document.body.innerHTML = html;
-                }, 500);
-            })
-            .catch(error => {
-                clearInterval(progressInterval);
-                progressBar.style.display = 'none';
-                alert('Error uploading file: ' + error.message);
-            });
-        });
-
-        // Add some interactive effects
-        document.querySelectorAll('.quick-link').forEach(link => {
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px) scale(1.05)';
-            });
-            
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
         });
     </script>
 </body>
